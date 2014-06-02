@@ -11,8 +11,8 @@ class NgramException(Exception):
 def ngram(
         seq: "sequence",
         n: int,
-        start_symbol=True,
-        end_symbol=True) -> "iterator":
+        start_symbol: bool=True,
+        end_symbol: bool=True) -> "iterator":
     seq = list(seq)
     s_len = len(seq)
     if s_len < n:
@@ -36,5 +36,25 @@ def ngram(
     return zip(*xs)
 
 
+def both_ngram(
+        seq: "sequence",
+        n: int,
+        start_symbol: bool=True,
+        end_symbol: bool=True) -> "iterator":
+    """Return n-gram for both sides.
+
+    >>> both_ngram(["a", "b", "c", "d"], 1)
+    [('<s_0>', '<s_1>', 'a'),
+     ('<s_1>', 'a', 'b'),
+     ('a', 'b', 'c'),
+     ('b', 'c', 'd'),
+     ('c', 'd', '</s_1>'),
+     ('d', '</s_1>', '</s_0>')]
+    """
+
+    return ngram(seq, 2*n+1, start_symbol, end_symbol)
+
+
 if __name__ == '__main__':
-    print(list(ngram("今日はもう疲れたので寝たい", 2)))
+    print(list(ngram("今日はもう疲れたので寝たい", 5)))
+    print(list(both_ngram(["a", "b", "c", "d"], 1)))
