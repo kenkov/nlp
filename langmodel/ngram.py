@@ -39,6 +39,7 @@ def ngram(
 def both_ngram(
         seq: "sequence",
         n: int,
+        keyword_len: int=1,
         start_symbol: bool=True,
         end_symbol: bool=True) -> "iterator":
     """Return n-gram for both sides.
@@ -52,9 +53,9 @@ def both_ngram(
      ('d', '</s_1>', '</s_0>')]
     """
 
-    return ngram(seq, 2*n+1, start_symbol, end_symbol)
+    return ngram(seq, 2*n+keyword_len, start_symbol, end_symbol)
 
 
 if __name__ == '__main__':
     print(list(ngram("今日はもう疲れたので寝たい", 5)))
-    print(list(both_ngram(["a", "b", "c", "d"], 1)))
+    print(list(both_ngram(["a", "b", "c", "d"], 1, 2)))
