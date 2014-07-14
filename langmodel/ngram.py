@@ -24,10 +24,7 @@ def ngram(
             ss.append("<s_{}>".format(i))
         seq = ss + seq
     if end_symbol:
-        es = []
-        for i in range(n-2, -1, -1):
-            es.append("</s_{}>".format(i))
-        seq = seq + es
+        seq.append("</s>")
 
     xs = itertools.tee(seq, n)
     for i, t in enumerate(xs[1:]):
@@ -75,4 +72,4 @@ def both_ngram(
 
 if __name__ == '__main__':
     print(list(ngram("今日は熱い", 4)))
-    print(list(both_ngram("今日は疲れた", 2, 1)))
+    print(list(both_ngram("今日は疲れた", 2, 2)))
