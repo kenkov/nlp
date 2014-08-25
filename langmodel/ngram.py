@@ -13,8 +13,10 @@ def ngram(
         n: int,
         start_symbol: bool=True,
         end_symbol: bool=True) -> "iterator":
+
     seq = list(seq)
     s_len = len(seq)
+
     if (not start_symbol) and (not end_symbol) and s_len < n:
         raise NgramException("the sentences length is not enough:\
                              len(sentences)={} < n={}".format(s_len, n))
