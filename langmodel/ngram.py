@@ -9,8 +9,8 @@ class NgramException(Exception):
 
 
 def ngram(
-        seq: "sequence",
         n: int,
+        seq: "sequence",
         start_symbol: bool=True,
         end_symbol: bool=True) -> "iterator":
 
@@ -73,5 +73,5 @@ def bothngram(
 
 
 if __name__ == '__main__':
-    print(list(ngram("今日は熱い", 4)))
+    print(list(ngram(4, "今日は熱い")))
     print(list(bothngram("今日は疲れた", 2, 2)))
