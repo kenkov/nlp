@@ -1,3 +1,4 @@
 parser/
 *.hi
 *.o
+__pycache__/
