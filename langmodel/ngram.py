@@ -35,7 +35,7 @@ def ngram(
     return zip(*xs)
 
 
-def both_ngram(
+def bothngram(
         seq: "sequence",
         n: int,
         keyword_len: int=1) -> "iterator":
@@ -74,4 +74,4 @@ def both_ngram(
 
 if __name__ == '__main__':
     print(list(ngram("今日は熱い", 4)))
-    print(list(both_ngram("今日は疲れた", 2, 2)))
+    print(list(bothngram("今日は疲れた", 2, 2)))
