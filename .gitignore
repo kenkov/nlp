@@ -2,3 +2,4 @@ parser/
 *.hi
 *.o
 __pycache__/
+haskell/langmodel/ngram
