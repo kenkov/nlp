@@ -45,7 +45,7 @@ void perceptron(const int dim, const Point *points, const int size, double *ans)
     }
 
     // perceptron
-    for (unsigned int k = 0; k < 10e4; k++) {
+    for (unsigned int k = 0; k < 10e3; k++) {
         for (int i = 0; i < size; i++) {
             int value = points[i].value;
             const double *point = points[i].point;
@@ -71,7 +71,8 @@ int main(void) {
         {{2, 1}, 1},
     };
     unsigned int pointSize = (sizeof(points) / sizeof(Point));
-    double ans[DIM+1];
+    // 0 initialization
+    double ans[DIM+1] = {};
 
     perceptron(DIM, points, pointSize, ans);
     cout << show(DIM, ans) << endl;
