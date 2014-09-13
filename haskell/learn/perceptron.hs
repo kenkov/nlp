@@ -36,7 +36,7 @@ rep :: (a -> a) -> a -> [b] -> a
 rep f x = foldl (\x y -> f x) x
 
 perceptron :: Count -> Dimension -> [Point] -> Parameter
-perceptron count dim ps = 
+perceptron count dim ps =
     let r2 = findMaxR ps in
         rep (perceptron_ r2 ps) (replicate dim 0, 0) [1..count]
 
