@@ -25,15 +25,15 @@ findMaxR ps = maximum [l2Norm (point y) | y <- ps]
 
 learn :: Double -> Parameter -> Point -> Parameter
 learn r2 (w, b) pt =
-    if value pt * (innerProduct w (point pt)) <= 0
-        then ([i + j * (value pt) | (i, j) <- zip w (point pt)], b + (value pt) * r2)
+    if value pt * innerProduct w (point pt) <= 0
+        then ([i + j * value pt | (i, j) <- zip w (point pt)], b + value pt * r2)
         else (w, b)
 
 perceptron_ :: Double -> [Point] -> Parameter -> Parameter
 perceptron_ r2 ps (w, b) = foldl (learn r2) (w, b) ps
 
 rep :: (a -> a) -> a -> [b] -> a
-rep f x ys = foldl (\x -> \y -> f x) x ys
+rep f x = foldl (\x y -> f x) x
 
 perceptron :: Count -> Dimension -> [Point] -> Parameter
 perceptron count dim ps = 
