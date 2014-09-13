@@ -2,4 +2,6 @@ parser/
 *.hi
 *.o
 __pycache__/
+learn/perceptron
 haskell/langmodel/ngram
+haskell/learn/perceptron
