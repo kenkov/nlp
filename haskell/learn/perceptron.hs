@@ -16,9 +16,9 @@ findMaxR :: [Point] -> Double
 findMaxR ps = maximum [l2Norm (point y) | y <- ps]
 
 learn :: Double -> Parameter -> Point -> Parameter
-learn r2 (w, b) pt =
-    if value pt * innerProduct w (point pt) <= 0
-        then ([i + j * value pt | (i, j) <- zip w (point pt)], b + value pt * r2)
+learn r2 (w, b) (Point x y) =
+    if y * innerProduct w x <= 0
+        then ([i + j * y | (i, j) <- zip w x], b + y * r2)
         else (w, b)
 
 perceptron_ :: Double -> [Point] -> Parameter -> Parameter
