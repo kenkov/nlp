@@ -5,3 +5,4 @@ __pycache__/
 learn/perceptron
 haskell/langmodel/ngram
 haskell/learn/perceptron
+haskell/learn/l1svm
