@@ -2,11 +2,9 @@ import Control.Applicative
 import Data.STRef
 import Control.Monad
 import Control.Monad.ST
+import Vector
 
-
-type Vector = [Double]
 type Parameter = (Vector, Double)
-type Dimension = Int
 type Count = Int
 
 data Point = Point {
@@ -14,29 +12,23 @@ data Point = Point {
     value :: Double
 } deriving (Show, Eq)
 
-innerProduct :: Vector -> Vector -> Double
-innerProduct x y = sum $ zipWith (*) x y
-
-l2Norm :: Vector -> Double
-l2Norm x = sum $ map (^2) x
-
 findMaxR :: [Point] -> Double
 findMaxR ps = maximum [l2Norm (point y) | y <- ps]
 
 learn :: Double -> Parameter -> Point -> Parameter
 learn r2 (w, b) pt =
-    if value pt * (innerProduct w (point pt)) <= 0
-        then ([i + j * (value pt) | (i, j) <- zip w (point pt)], b + (value pt) * r2)
+    if value pt * innerProduct w (point pt) <= 0
+        then ([i + j * value pt | (i, j) <- zip w (point pt)], b + value pt * r2)
         else (w, b)
 
 perceptron_ :: Double -> [Point] -> Parameter -> Parameter
 perceptron_ r2 ps (w, b) = foldl (learn r2) (w, b) ps
 
 rep :: (a -> a) -> a -> [b] -> a
-rep f x ys = foldl (\x -> \y -> f x) x ys
+rep f x = foldl (\x y -> f x) x
 
 perceptron :: Count -> Dimension -> [Point] -> Parameter
-perceptron count dim ps = 
+perceptron count dim ps =
     let r2 = findMaxR ps in
         rep (perceptron_ r2 ps) (replicate dim 0, 0) [1..count]
 
