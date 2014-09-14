@@ -2,23 +2,15 @@ import Control.Applicative
 import Data.STRef
 import Control.Monad
 import Control.Monad.ST
+import Vector
 
-
-type Vector = [Double]
 type Parameter = (Vector, Double)
-type Dimension = Int
 type Count = Int
 
 data Point = Point {
     point :: Vector,
     value :: Double
 } deriving (Show, Eq)
-
-innerProduct :: Vector -> Vector -> Double
-innerProduct x y = sum $ zipWith (*) x y
-
-l2Norm :: Vector -> Double
-l2Norm x = sum $ map (^2) x
 
 findMaxR :: [Point] -> Double
 findMaxR ps = maximum [l2Norm (point y) | y <- ps]
