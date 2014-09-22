@@ -13,17 +13,20 @@ data Point = Point {
 
 grad :: Dimension -> Double -> Parameter -> Point -> Parameter
 grad dim c (w, b) (Point x y) =
-    (vectorSum g1 g2, 0)
+    (g1 |+| g2, b' + b'')
     where
-        g1 = if y * innerProduct w x < 1.0
+        disc = (y * (w |*| x)) + b < 1.0
+        g1 = if disc
                 then scalaProduct (- y) x
                 else replicate dim 0
-        g2 = [if abs wi > 1.0e-15 then c * y else 0 | wi <- x]
+        g2 = [if abs wi > 1.0e-15 then c * signum wi else 0 | wi <- x ]
+        b' = if disc then -y else 0
+        b'' = if abs b > 1.0e-15 then c * signum b else 0
 
 learn1 :: LearningRate -> Dimension -> Double -> Parameter -> Point -> Parameter
 learn1 eta dim c (w, b) pt =
     let (gw, gb) = grad dim c (w, b)  pt in
-        (zipWith (\ x y -> x - eta * y) w gw, gb + 0)
+        (zipWith (\ x y -> x - eta * y) w gw, b - eta * gb)
 
 learn :: LearningRate -> Dimension -> Double -> [Point] -> Parameter
 learn eta dim c = foldl (learn1 eta dim c) ([0, 0], 0)
