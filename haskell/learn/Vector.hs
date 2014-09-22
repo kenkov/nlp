@@ -2,8 +2,10 @@ module Vector (
     Vector,
     Dimension,
     innerProduct,
+    (|*|),
     l2Norm,
     vectorSum,
+    (|+|),
     scalaProduct,
     sign,
 ) where
@@ -14,8 +16,14 @@ type Dimension = Int
 innerProduct :: Vector -> Vector -> Double
 innerProduct x y = sum $ zipWith (*) x y
 
+(|*|) :: Vector -> Vector -> Double
+x |*| y = x `innerProduct` y
+
 vectorSum :: Vector -> Vector -> Vector
 vectorSum = zipWith (+)
+
+(|+|) :: Vector -> Vector -> Vector
+x |+| y = x `vectorSum` y
 
 scalaProduct :: Double -> Vector -> Vector
 scalaProduct x = map (*x)
