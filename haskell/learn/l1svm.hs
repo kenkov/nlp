@@ -43,9 +43,10 @@ onlineL1svm = l1svm 1
 main :: IO ()
 main = do
     points <- map (mkPoint . map read . words) . lines <$> getContents
+    c <- head . map read <$> getArgs
+    -- let c = 1.0e-5
     let count = 100
-    let eta = 0.1
     let dim = 2
-    let c = 1.0e-5
+    let eta = 0.1
     putStrLn $ showParameter $ batchL1svm count eta dim c points
     -- putStrLn $ showParameter $ onlineL1svm eta dim c points

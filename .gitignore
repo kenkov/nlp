@@ -4,5 +4,7 @@ parser/
 __pycache__/
 learn/perceptron
 haskell/langmodel/ngram
-haskell/learn/perceptron
+haskell/learn/testdata/testdata
+haskell/learn/param/
 haskell/learn/l1svm
+haskell/learn/perceptron
