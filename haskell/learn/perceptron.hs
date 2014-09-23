@@ -3,47 +3,47 @@ import Data.STRef
 import Control.Monad
 import Control.Monad.ST
 import Vector
+import System.IO
+import SVM
 
-type Parameter = (Vector, Double)
 type Count = Int
-
-data Point = Point {
-    point :: Vector,
-    value :: Double
-} deriving (Show, Eq)
 
 findMaxR :: [Point] -> Double
 findMaxR ps = maximum [l2Norm (point y) | y <- ps]
 
-learn :: Double -> Parameter -> Point -> Parameter
-learn r2 (w, b) (Point x y) =
-    if y * innerProduct w x <= 0
-        then ([i + j * y | (i, j) <- zip w x], b + y * r2)
+learn1 :: LearningRate -> Double -> Parameter -> Point -> Parameter
+learn1 eta r2 (w, b) (Point x y) =
+    if y * ((w |*| x) + b) <= 0
+        then ([i + eta * j * y | (i, j) <- zip w x], b + eta * y * r2)
         else (w, b)
 
-perceptron_ :: Double -> [Point] -> Parameter -> Parameter
-perceptron_ r2 ps (w, b) = foldl (learn r2) (w, b) ps
+perceptron_ :: LearningRate -> Double -> [Point] -> Parameter -> Parameter
+perceptron_ eta r2 ps (w, b) = foldl (learn1 eta r2) (w, b) ps
 
 rep :: (a -> a) -> a -> [b] -> a
 rep f x = foldl (\x y -> f x) x
 
-perceptron :: Count -> Dimension -> [Point] -> Parameter
-perceptron count dim ps =
+perceptron :: Count -> LearningRate -> Dimension -> [Point] -> Parameter
+perceptron count eta dim ps =
     let r2 = findMaxR ps in
-        rep (perceptron_ r2 ps) (replicate dim 0, 0) [1..count]
+        rep (perceptron_ eta r2 ps) (replicate dim 0, 0) [1..count]
 
-batchPerceptron :: Count -> Dimension -> [Point] -> Parameter
+batchPerceptron :: Count -> LearningRate -> Dimension -> [Point] -> Parameter
 batchPerceptron = perceptron
 
-onlinePerceptron :: Dimension -> [Point] -> Parameter
+onlinePerceptron :: LearningRate -> Dimension -> [Point] -> Parameter
 onlinePerceptron = batchPerceptron 1
 
 
 main :: IO ()
 main = do
-    let points = [Point [0, 0] (-1),
-                  Point [1, 0] (-1),
-                  Point [0, 1] 1,
-                  Point [1, 1] 1]
-    print $ onlinePerceptron 2 points
-    print $ batchPerceptron 10000 2 points
+    -- let points = [Point [0, 0] (-1),
+    --               Point [1, 0] (-1),
+    --               Point [0, 1] 1,
+    --               Point [1, 1] 1]
+    points <- map (mkPoint . map read . words) . lines <$> getContents
+    let eta = 0.1
+    let dimension = 2
+    let count = 100
+    -- putStrLn $ showParameter $ onlinePerceptron eta dimension points
+    putStrLn $ showParameter $ batchPerceptron count eta dimension points
