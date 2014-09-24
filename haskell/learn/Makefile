@@ -1,4 +1,4 @@
-.PHONY: main perceptron clean
+.PHONY: main clean
 
 main: perceptron l1svm
 
