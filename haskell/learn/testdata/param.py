@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plot_points(filename, color="red", left=-10, right=10, step=1):
+def plot_points(filename, color="red", left=-10, right=20, step=1):
     hdl = open(filename, "r")
     a, b, c = [float(x) for x in hdl.readline().split()]
 
