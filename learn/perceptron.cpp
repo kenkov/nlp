@@ -1,5 +1,6 @@
 #include <iostream>
 #include <array>
+#include <vector>
 using namespace std;
 
 
@@ -33,10 +34,11 @@ string show(const int dim, const double *w) {
     return ans;
 }
 
-void perceptron(const int dim, const Point *points, const int size, double *ans) {
+void perceptron(const int dim, vector<Point> points, double *ans) {
     double b = 0;
     // find max R^2
     double R = -1;
+    int size = points.size();
     for (int i = 0; i < size; i++) {
         double x = l2norm(dim, points[i].point);
         if (x > R) {
@@ -62,19 +64,25 @@ void perceptron(const int dim, const Point *points, const int size, double *ans)
 }
 
 int main(void) {
-    Point points[] = {
-        {{0, 0}, -1},
-        {{1, 0}, -1},
-        {{2, 0}, -1},
-        {{0, 1}, 1},
-        {{1, 1}, 1},
-        {{2, 1}, 1},
-    };
-    unsigned int pointSize = (sizeof(points) / sizeof(Point));
+    //Point points[] = {
+    //    {{0, 0}, -1},
+    //    {{1, 0}, -1},
+    //    {{2, 0}, -1},
+    //    {{0, 1}, 1},
+    //    {{1, 1}, 1},
+    //    {{2, 1}, 1},
+    //};
+    double x, y;
+    int c;
+    vector<Point> points;
+    while (cin >> x >> y >> c) {
+        points.push_back({{x, y}, c});
+    }
+
     // 0 initialization
     double ans[DIM+1] = {};
 
-    perceptron(DIM, points, pointSize, ans);
+    perceptron(DIM, points, ans);
     cout << show(DIM, ans) << endl;
 
     return 0;
