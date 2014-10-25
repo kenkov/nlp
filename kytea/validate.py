@@ -136,6 +136,6 @@ if __name__ == '__main__':
     if invalid:
         for num, text in invalid:
             print("line {num} is invalid: {text}".format(
-                num=num,
+                num=num+1,
                 text=text.strip()))
         sys.exit(1)
